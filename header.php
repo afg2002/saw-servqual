@@ -37,30 +37,50 @@ if(isset($_GET['logout'])) {
                     <a class="nav-link text-white" href="index.php">Home<span class="sr-only">(current)</span></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="admin.php"> Admin </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="konsumen.php"> Konsumen </a>
-                </li>
+                <?php
+                // Check if user is logged in and has admin role
+                if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "admin") {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="admin.php"> Admin </a>
+                    </li>
+                <?php } ?>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="servqual.php"> Servqual </a>
-                </li>
+                    <?php
+                    // Check if user is logged in and has admin role
+                    if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "admin") {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="konsumen.php"> Konsumen </a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link text-white" href="servqual.php"> Servqual </a>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        SAW
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="nilai.php">Nilai</a>
-                        <a class="dropdown-item" href="kriteria.php">Kriteria</a>
-                        <a class="dropdown-item" href="alternatif.php">Alternatif</a>
-                        <a class="dropdown-item" href="rangking.php">Rangking</a>
-                    </div>
-                </li>
+                    <?php } ?>
+
+                   
+                    <?php
+                    // Check if user is logged in and has admin role
+                    if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "admin") {
+                    ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                SAW
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="nilai.php">Nilai</a>
+                                <a class="dropdown-item" href="kriteria.php">Kriteria</a>
+                                <a class="dropdown-item" href="alternatif.php">Alternatif</a>
+                                <a class="dropdown-item" href="rangking.php">Rangking</a>
+                            </div>
+                        </li>
+                    <?php } ?>
+
             </ul>
+
+            <button class="btn btn-warning mr-3 text-white"> <?php echo $_SESSION['fullname'] ?></button>
             
             <!-- Logout Button -->
             <a href="?logout" class="btn btn-dark">Logout</a>

@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Query untuk memasukkan user baru ke database
-    $query = "INSERT INTO users (username, password, fullname, email, notelpon, role) VALUES ('$username', '$hashed_password', '$fullname', '$email', '$notelpon', '$role')";
+    $query = "INSERT INTO users (username, password, fullname, email, no_telp, role) VALUES ('$username', '$hashed_password', '$fullname', '$email', '$notelpon', '$role')";
     $result = mysqli_query($koneksi, $query);
 
     if ($result) {

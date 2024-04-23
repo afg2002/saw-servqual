@@ -1,6 +1,13 @@
 <?php
 include "header.php";
 include "includes/config.php";
+
+
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "admin") {
+    header("Location: login.php");
+    exit();
+}
+
 $readK = mysqli_query($koneksi,"SELECT * FROM alternatif a, kriteria b, rangking c 
 								WHERE a.id_alternatif=c.id_alternatif AND 
 								b.id_kriteria=c.id_kriteria 

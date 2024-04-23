@@ -101,21 +101,26 @@ INSERT IGNORE INTO `nilai_kriteria` (`id_nilai_kriteria`, `ket_nilai_kriteria`, 
 	(7, 'Jarak', 35),
 	(11, 'Fasilitas', 50);
 
--- Dumping structure for table dsssaw.penilaian_servqual
-CREATE TABLE IF NOT EXISTS `penilaian_servqual` (
-  `id_penilaian` int NOT NULL AUTO_INCREMENT,
-  `id_konsumen` int NOT NULL,
-  `id_pertanyaan` int NOT NULL,
-  `nilai_persepsi` int NOT NULL,
-  `nilai_harapan` int NOT NULL,
-  PRIMARY KEY (`id_penilaian`),
-  KEY `id_konsumen` (`id_konsumen`),
-  KEY `id_pertanyaan` (`id_pertanyaan`),
-  CONSTRAINT `penilaian_servqual_ibfk_1` FOREIGN KEY (`id_konsumen`) REFERENCES `konsumen` (`id_konsumen`),
-  CONSTRAINT `penilaian_servqual_ibfk_2` FOREIGN KEY (`id_pertanyaan`) REFERENCES `pertanyaan_servqual` (`id_pertanyaan`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table dsssaw.penilaian_servqual: ~0 rows (approximately)
+
+-- Dumping structure for table dsssaw.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `no_telp` varchar(50) DEFAULT NULL,
+  `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dsssaw.users: ~0 rows (approximately)
+INSERT IGNORE INTO `users` (`id`, `username`, `password`, `fullname`, `email`, `no_telp`, `alamat`, `role`) VALUES
+	(10, 'afg2002', '$2a$12$20iR8GyHjeVO3tdHCwYrBOS9YgFk7CFXtQTSnotexAtQci9SKvXYW', 'afghan', 'yaya@gmail.com', '2', 'test', 'admin'),
+	(26, 'test', '$2y$10$ePsSWQf/Och4f364I8.Q0uo5m1kPkmbK6ZuJvzZBegFRMPMaacLV.', 'test', 'test@gmail.com', 'test', 'test', 'admin');
+
 
 -- Dumping structure for table dsssaw.pertanyaan_servqual
 CREATE TABLE IF NOT EXISTS `pertanyaan_servqual` (
@@ -139,6 +144,23 @@ INSERT IGNORE INTO `pertanyaan_servqual` (`id_pertanyaan`, `id_dimensi`, `pertan
 	(8, 4, 'Pengetahuan dan keterampilan karyawan untuk memberikan pelayanan'),
 	(9, 5, 'Perhatian individu terhadap pelanggan'),
 	(10, 5, 'Kemampuan untuk memberikan perhatian yang individualis');
+
+
+-- Dumping structure for table dsssaw.penilaian_servqual
+CREATE TABLE IF NOT EXISTS `penilaian_servqual` (
+  `id_penilaian` int NOT NULL AUTO_INCREMENT,
+  `id_konsumen` int NOT NULL,
+  `id_pertanyaan` int NOT NULL,
+  `nilai_persepsi` int NOT NULL,
+  `nilai_harapan` int NOT NULL,
+  PRIMARY KEY (`id_penilaian`),
+  KEY `id_konsumen` (`id_konsumen`),
+  KEY `id_pertanyaan` (`id_pertanyaan`),
+  CONSTRAINT `penilaian_servqual_ibfk_1` FOREIGN KEY (`id_konsumen`) REFERENCES `users` (`id`),
+  CONSTRAINT `penilaian_servqual_ibfk_2` FOREIGN KEY (`id_pertanyaan`) REFERENCES `pertanyaan_servqual` (`id_pertanyaan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table dsssaw.penilaian_servqual: ~0 rows (approximately)
 
 -- Dumping structure for table dsssaw.rangking
 CREATE TABLE IF NOT EXISTS `rangking` (
@@ -167,24 +189,6 @@ INSERT IGNORE INTO `rangking` (`id_alternatif`, `id_kriteria`, `nilai_rangking`,
 	(6, 16, 50000, 0.8, 12),
 	(6, 17, 5, 0.6, 21),
 	(6, 21, 2, 0.6667, 33.335);
-
--- Dumping structure for table dsssaw.users
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `no_telp` varchar(50) DEFAULT NULL,
-  `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Dumping data for table dsssaw.users: ~0 rows (approximately)
-INSERT IGNORE INTO `users` (`id`, `username`, `password`, `fullname`, `email`, `no_telp`, `alamat`, `role`) VALUES
-	(10, 'afg2002', '$2a$12$20iR8GyHjeVO3tdHCwYrBOS9YgFk7CFXtQTSnotexAtQci9SKvXYW', 'afghan', 'yaya@gmail.com', '2', 'test', 'admin'),
-	(26, 'test', '$2y$10$ePsSWQf/Och4f364I8.Q0uo5m1kPkmbK6ZuJvzZBegFRMPMaacLV.', 'test', 'test@gmail.com', 'test', 'test', 'admin');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

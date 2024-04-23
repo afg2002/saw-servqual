@@ -1,6 +1,12 @@
 <?php
 include "header.php";
 include "includes/config.php";
+
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "admin") {
+    header("Location: login.php");
+    exit();
+}
+
 $query = mysqli_query($koneksi, "SELECT * FROM alternatif");
 ?>
 

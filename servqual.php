@@ -2,8 +2,14 @@
 include "includes/config.php";
 include "header.php";
 
+
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "admin") {
+    header("Location: login.php");
+    exit();
+}
+
 // Ambil data konsumen dari database
-$konsumen_query = mysqli_query($koneksi, "SELECT * FROM konsumen");
+$konsumen_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'konsumen'");
 $konsumen_data = array();
 while ($row = mysqli_fetch_assoc($konsumen_query)) {
     $konsumen_data[] = $row;
@@ -57,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select class="form-control" id="id_konsumen" name="id_konsumen" required>
                         <option value="">Pilih Konsumen</option>
                         <?php foreach ($konsumen_data as $konsumen) { ?>
-                            <option value="<?php echo $konsumen['id_konsumen']; ?>"><?php echo $konsumen['nama_konsumen']; ?></option>
+                            <option value="<?php echo $konsumen['id']; ?>"><?php echo $konsumen['fullname']; ?></option>
                         <?php } ?>
                     </select>
                 </div>

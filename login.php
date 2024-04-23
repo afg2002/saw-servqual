@@ -16,9 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user["password"])) {
             // Jika password sesuai, simpan session dan redirect ke halaman utama
             session_start();
+        
+
             $_SESSION["user_id"] = $user["id"];
-            $_SESSION["username"] = $user["username"];
             $_SESSION["role"] = $user["role"];
+            $_SESSION["fullname"] = $user["fullname"];
+            $_SESSION["username"] = $user["username"];
             header("Location: index.php");
             exit();
         } else {
