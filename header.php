@@ -38,6 +38,9 @@ if(isset($_GET['logout'])) {
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link text-white" href="admin.php"> Admin </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white" href="konsumen.php"> Konsumen </a>
                 </li>
 

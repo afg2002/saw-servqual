@@ -5,12 +5,16 @@ include "includes/config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $fullname = $_POST["fullname"];
+    $email = $_POST["email"];
+    $notelpon = $_POST["notelpon"];
+    $role = "konsumen"; // Role default
 
     // Hash password sebelum disimpan ke database
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Query untuk memasukkan user baru ke database
-    $query = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+    $query = "INSERT INTO users (username, password, fullname, email, notelpon, role) VALUES ('$username', '$hashed_password', '$fullname', '$email', '$notelpon', '$role')";
     $result = mysqli_query($koneksi, $query);
 
     if ($result) {
@@ -40,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             padding: 30px;
-            height : 400px;
-            width : 500px;
+            height: 600px;
+            width: 500px;
         }
 
         .register-card h2 {
@@ -75,6 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php } ?>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                 <div class="form-group">
+                    <label for="fullname" class="text-muted">Full Name:</label>
+                    <input type="text" class="form-control" id="fullname" name="fullname" required>
+                </div>
+                <div class="form-group">
                     <label for="username" class="text-muted">Username:</label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>
@@ -82,6 +90,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="password" class="text-muted">Password:</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
+                <div class="form-group">
+                    <label for="email" class="text-muted">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="notelpon" class="text-muted">No. Telepon:</label>
+                    <input type="text" class="form-control" id="notelpon" name="notelpon" required>
+                </div>
+                <!-- Input untuk role dengan nilai default 'user' dan disabled -->
+                <input type="hidden" name="role" value="user">
                 <button type="submit" class="btn btn-primary btn-block">Daftar</button>
             </form>
             <p>Sudah punya akun? <a href="login.php">Login</a></p>

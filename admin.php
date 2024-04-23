@@ -6,70 +6,71 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "admin") {
     header("Location: login.php");
     exit();
 }
-// Ambil data konsumen dari database
-$konsumen_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'konsumen'");
-$konsumen_data = array();
-while ($row = mysqli_fetch_assoc($konsumen_query)) {
-    $konsumen_data[] = $row;
+
+// Ambil data admin dari database
+$admin_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'admin'");
+$admin_data = array();
+while ($row = mysqli_fetch_assoc($admin_query)) {
+    $admin_data[] = $row;
 }
 
-// Proses input konsumen baru
+// Proses input admin baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["insert"]))  {
-    $nama_konsumen = $_POST["nama_konsumen"];
+    $nama_admin = $_POST["nama_admin"];
     $username = $_POST["username"];
     $password = $_POST["password"];
     $email = $_POST["email"];
     $no_telp = $_POST["no_telp"];
     $alamat = $_POST["alamat"];
-    $role = "konsumen";
+    $role = "admin";
 
     // Validasi input
-    if ( empty($username) || empty($nama_konsumen) || empty($email) || empty($no_telp) || empty($alamat)) {
+    if ( empty($username) || empty($nama_admin) || empty($email) || empty($no_telp) || empty($alamat)) {
         $error_message = "Semua field harus diisi.";
     } else {
         //Password hashing
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Simpan data konsumen baru ke database
-        $query = "INSERT INTO users ( username, password ,fullname, email, no_telp, alamat, role) VALUES ( '$username', '$hashed_password','$nama_konsumen', '$email', '$no_telp', '$alamat', '$role')";
+        // Simpan data admin baru ke database
+        $query = "INSERT INTO users ( username, password ,fullname, email, no_telp, alamat, role) VALUES ( '$username', '$hashed_password','$nama_admin', '$email', '$no_telp', '$alamat', '$role')";
         if (mysqli_query($koneksi, $query)) {
-            $success_message = "Data konsumen berhasil disimpan.";
-            // Refresh data konsumen
-            $konsumen_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'konsumen'");
-            $konsumen_data = array();
-            while ($row = mysqli_fetch_assoc($konsumen_query)) {
-                $konsumen_data[] = $row;
+            $success_message = "Data admin berhasil disimpan.";
+            // Refresh data admin
+            $admin_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'admin'");
+            $admin_data = array();
+            while ($row = mysqli_fetch_assoc($admin_query)) {
+                $admin_data[] = $row;
             }
         } else {
-            $error_message = "Terjadi kesalahan saat menyimpan data konsumen.";
+            $error_message = "Terjadi kesalahan saat menyimpan data admin.";
         }
     }
 }
 
-// Proses edit konsumen
+// Proses edit admin
 if (isset($_GET["edit"])) {
-    $id_konsumen = $_GET["edit"];
-    $query = "SELECT * FROM users WHERE id = $id_konsumen";
+    $id_admin = $_GET["edit"];
+    $query = "SELECT * FROM users WHERE id = $id_admin";
     $result = mysqli_query($koneksi, $query);
-    $konsumen = mysqli_fetch_assoc($result);
+    $admin = mysqli_fetch_assoc($result);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
-    $id_konsumen = $_POST["id"];
+    $id_admin = $_POST["id"];
     $username = $_POST["username"];
-    $nama_konsumen = $_POST["nama_konsumen"];
+    $nama_admin = $_POST["nama_admin"];
     $email = $_POST["email"];
     $no_telp = $_POST["no_telp"];
     $alamat = $_POST["alamat"];
-    $role = "konsumen";
+    $role = "admin";
 
 
     // Validasi input
-    if (empty($nama_konsumen) || empty($email) || empty($no_telp) || empty($alamat)) {
+    if (empty($nama_admin) || empty($email) || empty($no_telp) || empty($alamat)) {
         $error_message = "Semua field harus diisi.";
     } else {
-        // Update data konsumen di database
-        $query = "UPDATE users SET fullname = '$nama_konsumen', email = '$email', no_telp = '$no_telp', alamat = '$alamat', role = '$role'";
+        // Update data admin di database
+        $query = "UPDATE users SET fullname = '$nama_admin', email = '$email', no_telp = '$no_telp', alamat = '$alamat', role = '$role'";
         
         // Cek apakah password diisi dalam form
         if (!empty($_POST["password"])) {
@@ -78,36 +79,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
             $query .= ", password = '$hashed_password'";
         }
 
-        $query .= " WHERE id = $id_konsumen";
+        $query .= " WHERE id = $id_admin";
         
         if (mysqli_query($koneksi, $query)) {
-            $success_message = "Data konsumen berhasil diupdate.";
-            // Refresh data konsumen
-            $konsumen_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'konsumen'");
-            $konsumen_data = array();
-            while ($row = mysqli_fetch_assoc($konsumen_query)) {
-                $konsumen_data[] = $row;
+            $success_message = "Data admin berhasil diupdate.";
+            // Refresh data admin
+            $admin_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'admin'");
+            $admin_data = array();
+            while ($row = mysqli_fetch_assoc($admin_query)) {
+                $admin_data[] = $row;
             }
         } else {
-            $error_message = "Terjadi kesalahan saat meng-update data konsumen.";
+            $error_message = "Terjadi kesalahan saat meng-update data admin.";
         }
     }
 }
 
-// Proses hapus konsumen
+// Proses hapus admin
 if (isset($_GET["delete"])) {
-    $id_konsumen = $_GET["delete"];
-    $query = "DELETE FROM users WHERE id = $id_konsumen";
+    $id_admin = $_GET["delete"];
+    $query = "DELETE FROM users WHERE id = $id_admin";
     if (mysqli_query($koneksi, $query)) {
-        $success_message = "Data konsumen berhasil dihapus.";
-        // Refresh data konsumen
-        $konsumen_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'konsumen'");
-        $konsumen_data = array();
-        while ($row = mysqli_fetch_assoc($konsumen_query)) {
-            $konsumen_data[] = $row;
+        $success_message = "Data admin berhasil dihapus.";
+        // Refresh data admin
+        $admin_query = mysqli_query($koneksi, "SELECT * FROM users WHERE role = 'admin'");
+        $admin_data = array();
+        while ($row = mysqli_fetch_assoc($admin_query)) {
+            $admin_data[] = $row;
         }
     } else {
-        $error_message = "Terjadi kesalahan saat menghapus data konsumen.";
+        $error_message = "Terjadi kesalahan saat menghapus data admin.";
     }
 }
 ?>
@@ -115,7 +116,7 @@ if (isset($_GET["delete"])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Konsumen - SERVQUAL & SAW</title>
+    <title>admin - SERVQUAL & SAW</title>
     <!-- Custom Styles -->
     <style>
         body {
@@ -154,7 +155,7 @@ if (isset($_GET["delete"])) {
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Konsumen</h4>
+                        <h4>Daftar admin</h4>
                     </div>
                     <div class="card-body">
                         <?php if (isset($success_message)) { ?>
@@ -171,15 +172,15 @@ if (isset($_GET["delete"])) {
                                 </button>
                             </div>
                         <?php } ?>
-                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahKonsumen">
-                            Tambah Konsumen
+                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahadmin">
+                            Tambah admin
                         </button>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Username</th>
-                                    <th>Nama Konsumen</th>
+                                    <th>Nama admin</th>
                                     <th>Email</th>
                                     <th>No. Telepon</th>
                                     <th>Alamat</th>
@@ -190,7 +191,7 @@ if (isset($_GET["delete"])) {
                                 
                             <?php 
                             $no = 1;
-                            foreach ($konsumen_data as $row): ?>
+                            foreach ($admin_data as $row): ?>
                                 <tr>
                                     <td><?php echo $no; ?></td>
                                     <td><?php echo $row['username']; ?></td>
@@ -214,12 +215,12 @@ if (isset($_GET["delete"])) {
         </div>
     </div>
 
-    <!-- Modal untuk tambah konsumen -->
-    <div class="modal" id="tambahKonsumen" tabindex="-1" role="dialog" aria-labelledby="tambahKonsumenLabel" aria-hidden="true">
+    <!-- Modal untuk tambah admin -->
+    <div class="modal" id="tambahadmin" tabindex="-1" role="dialog" aria-labelledby="tambahadminLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tambahKonsumenLabel">Tambah Konsumen</h5>
+                    <h5 class="modal-title" id="tambahadminLabel">Tambah admin</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -237,8 +238,8 @@ if (isset($_GET["delete"])) {
                         </div>
 
                         <div class="form-group">
-                            <label for="nama_konsumen">Nama Konsumen:</label>
-                            <input type="text" class="form-control" id="nama_konsumen" name="nama_konsumen" required>
+                            <label for="nama_admin">Nama admin:</label>
+                            <input type="text" class="form-control" id="nama_admin" name="nama_admin" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -262,13 +263,13 @@ if (isset($_GET["delete"])) {
         </div>
     </div>
 
-    <!-- Modal untuk edit konsumen -->
-<?php foreach ($konsumen_data as $row) { ?>
+    <!-- Modal untuk edit admin -->
+<?php foreach ($admin_data as $row) { ?>
     <div class="modal fade" id="editModal<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel<?php echo $row['id']; ?>">Edit Konsumen</h5>
+                    <h5 class="modal-title" id="editModalLabel<?php echo $row['id']; ?>">Edit admin</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -285,8 +286,8 @@ if (isset($_GET["delete"])) {
                             <input type="password" class="form-control" id="password" name="password" value="" >
                         </div>
                         <div class="form-group">
-                            <label for="nama_konsumen">Nama Konsumen:</label>
-                            <input type="text" class="form-control" id="nama_konsumen" name="nama_konsumen" value="<?php echo $row['fullname']; ?>" required>
+                            <label for="nama_admin">Nama admin:</label>
+                            <input type="text" class="form-control" id="nama_admin" name="nama_admin" value="<?php echo $row['fullname']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>

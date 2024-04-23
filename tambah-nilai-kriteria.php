@@ -9,7 +9,7 @@ if ($_POST) {
 
 	$insert = mysqli_query($koneksi,"INSERT INTO nilai_kriteria 
 								VALUES
-								('','$ket','$jm')");
+								(0,'$ket','$jm')");
 	if ($insert) {
 		echo "<script>location.href='nilai.php'</script>";
 	}else {

@@ -39,52 +39,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-     <div class="container">
-        <h1 class="text-center mb-4">Penilaian SERVQUAL</h1>
-        <?php if (isset($success_message)) { ?>
-            <div class="alert alert-success"><?php echo $success_message; ?></div>
-        <?php } ?>
-        <?php if (isset($error_message)) { ?>
-            <div class="alert alert-danger"><?php echo $error_message; ?></div>
-        <?php } ?>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <div class="form-group">
-                <label for="id_konsumen">Konsumen:</label>
-                <select class="form-control" id="id_konsumen" name="id_konsumen" required>
-                    <option value="">Pilih Konsumen</option>
-                    <?php foreach ($konsumen_data as $konsumen) { ?>
-                        <option value="<?php echo $konsumen['id_konsumen']; ?>"><?php echo $konsumen['nama_konsumen']; ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Dimensi</th>
-                        <th>Pertanyaan</th>
-                        <th>Nilai Persepsi (1-5)</th>
-                        <th>Nilai Harapan (1-5)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($pertanyaan_data as $pertanyaan) { ?>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Penilaian SERVQUAL</h4>
+        </div>
+        <div class="card-body">
+            <?php if (isset($success_message)) { ?>
+                <div class="alert alert-success"><?php echo $success_message; ?></div>
+            <?php } ?>
+            <?php if (isset($error_message)) { ?>
+                <div class="alert alert-danger"><?php echo $error_message; ?></div>
+            <?php } ?>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="form-group">
+                    <label for="id_konsumen">Konsumen:</label>
+                    <select class="form-control" id="id_konsumen" name="id_konsumen" required>
+                        <option value="">Pilih Konsumen</option>
+                        <?php foreach ($konsumen_data as $konsumen) { ?>
+                            <option value="<?php echo $konsumen['id_konsumen']; ?>"><?php echo $konsumen['nama_konsumen']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td><?php echo $dimensi_data[$pertanyaan['id_dimensi'] - 1]['nama_dimensi']; ?></td>
-                            <td><?php echo $pertanyaan['pertanyaan']; ?></td>
-                            <td>
-                                <input type="number" class="form-control" name="nilai_persepsi[<?php echo $pertanyaan['id_pertanyaan']; ?>]" min="1" max="5" required>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="nilai_harapan[<?php echo $pertanyaan['id_pertanyaan']; ?>]" min="1" max="5" required>
-                            </td>
-                            <input type="hidden" name="id_pertanyaan[]" value="<?php echo $pertanyaan['id_pertanyaan']; ?>">
+                            <th>Dimensi</th>
+                            <th>Pertanyaan</th>
+                            <th>Nilai Persepsi (1-5)</th>
+                            <th>Nilai Harapan (1-5)</th>
                         </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
-        </form>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pertanyaan_data as $pertanyaan) { ?>
+                            <tr>
+                                <td><?php echo $dimensi_data[$pertanyaan['id_dimensi'] - 1]['nama_dimensi']; ?></td>
+                                <td><?php echo $pertanyaan['pertanyaan']; ?></td>
+                                <td>
+                                    <input type="number" class="form-control" name="nilai_persepsi[<?php echo $pertanyaan['id_pertanyaan']; ?>]" min="1" max="5" required>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="nilai_harapan[<?php echo $pertanyaan['id_pertanyaan']; ?>]" min="1" max="5" required>
+                                </td>
+                                <input type="hidden" name="id_pertanyaan[]" value="<?php echo $pertanyaan['id_pertanyaan']; ?>">
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
+            </form>
+        </div>
     </div>
-    <?php include "footer.php"; ?>
+</div>
+<?php include "footer.php"; ?>
 </body>
 </html>
