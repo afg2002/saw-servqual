@@ -8,21 +8,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST["fullname"];
     $email = $_POST["email"];
     $notelpon = $_POST["notelpon"];
+    $jenis_kelamin = $_POST["jenis_kelamin"];
+    $alamat = $_POST["alamat"];
     $role = "konsumen"; // Role default
 
     // Hash password sebelum disimpan ke database
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Query untuk memasukkan user baru ke database
-    $query = "INSERT INTO users (username, password, fullname, email, no_telp, role) VALUES ('$username', '$hashed_password', '$fullname', '$email', '$notelpon', '$role')";
-    $result = mysqli_query($koneksi, $query);
-
-    if ($result) {
-        // Jika pendaftaran berhasil, redirect ke halaman login
-        header("Location: login.php");
-        exit();
+    // Cek apakah username sudah ada di database
+    $cek_username = mysqli_query($koneksi, "SELECT * FROM users WHERE username = '$username'");
+    if (mysqli_num_rows($cek_username) > 0) {
+        $error_message = "Username sudah digunakan. Silakan gunakan username lain.";
     } else {
-        $error_message = "Gagal melakukan pendaftaran. Silakan coba lagi.";
+        // Query untuk memasukkan user baru ke database
+        $query = "INSERT INTO users (username, password, fullname, email, no_telp, role, jenis_kelamin, alamat) VALUES ('$username', '$hashed_password', '$fullname', '$email', '$notelpon', '$role', '$jenis_kelamin', '$alamat')";
+        $result = mysqli_query($koneksi, $query);
+
+        if ($result) {
+            // Jika pendaftaran berhasil, redirect ke halaman login
+            header("Location: login.php");
+            exit();
+        } else {
+            $error_message = "Gagal melakukan pendaftaran. Silakan coba lagi.";
+        }
     }
 }
 ?>
@@ -43,9 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            padding: 30px;
-            height: 600px;
-            width: 500px;
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
         }
 
         .register-card h2 {
@@ -98,6 +107,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="notelpon" class="text-muted">No. Telepon:</label>
                     <input type="text" class="form-control" id="notelpon" name="notelpon" required>
                 </div>
+                <div class="form-group">
+                    <label for="role" class="text-muted">Jenis Kelamin:</label>
+                    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="alamat" class="text-muted">Alamat:</label>
+                    <input type="text" class="form-control" id="alamat" name="alamat" required>
+                </div>
+                
                 <!-- Input untuk role dengan nilai default 'user' dan disabled -->
                 <input type="hidden" name="role" value="user">
                 <button type="submit" class="btn btn-primary btn-block">Daftar</button>

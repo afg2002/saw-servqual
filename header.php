@@ -53,11 +53,25 @@ if(isset($_GET['logout'])) {
                         <li class="nav-item">
                             <a class="nav-link text-white" href="konsumen.php"> Konsumen </a>
                         </li>
-                        <li class="nav-item">
-                        <a class="nav-link text-white" href="servqual.php"> Servqual </a>
-                    </li>
+                        
 
                     <?php } ?>
+                    <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Servqual
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="servqual.php">Kuisioner</a>
+                                <?php if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "admin") { ?>
+                                    <a class="dropdown-item" href="dimensi_servqual.php">Dimensi</a>
+                                    <a class="dropdown-item" href="pertanyaan_servqual.php">Pertanyaan Servqual</a>
+                                <?php } ?>
+                            </div>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                               
+                            </div>
+                        </li>
 
                    
                     <?php

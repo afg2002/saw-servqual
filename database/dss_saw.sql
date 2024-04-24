@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `no_telp` varchar(50) DEFAULT NULL,
   `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `jenis_kelamin` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -132,18 +133,18 @@ CREATE TABLE IF NOT EXISTS `pertanyaan_servqual` (
   CONSTRAINT `pertanyaan_servqual_ibfk_1` FOREIGN KEY (`id_dimensi`) REFERENCES `dimensi_servqual` (`id_dimensi`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table dsssaw.pertanyaan_servqual: ~10 rows (approximately)
-INSERT IGNORE INTO `pertanyaan_servqual` (`id_pertanyaan`, `id_dimensi`, `pertanyaan`) VALUES
-	(1, 1, 'Kebersihan dan kerapian fisik barang yang digunakan atau tempat pelayanan'),
-	(2, 1, 'Ketersediaan peralatan yang diperlukan'),
-	(3, 1, 'Penampilan fisik karyawan dan bagian peralatan'),
-	(4, 2, 'Keandalan dalam menyelesaikan masalah pelanggan'),
-	(5, 2, 'Kemampuan memberikan pelayanan sesuai janji'),
-	(6, 3, 'Responsif terhadap kebutuhan pelanggan'),
-	(7, 3, 'Waktu yang dibutuhkan untuk melayani pelanggan'),
-	(8, 4, 'Pengetahuan dan keterampilan karyawan untuk memberikan pelayanan'),
-	(9, 5, 'Perhatian individu terhadap pelanggan'),
-	(10, 5, 'Kemampuan untuk memberikan perhatian yang individualis');
+INSERT INTO `pertanyaan_servqual` (`id_dimensi`, `pertanyaan`) VALUES
+(1, 'Kebersihan dan kerapian fisik barang yang digunakan atau tempat pelayanan'),
+(1, 'Ketersediaan peralatan yang diperlukan'),
+(1, 'Penampilan fisik karyawan dan bagian peralatan'),
+(2, 'Keandalan dalam menyelesaikan masalah pelanggan'),
+(2, 'Kemampuan memberikan pelayanan sesuai janji'),
+(3, 'Responsif terhadap kebutuhan pelanggan'),
+(3, 'Waktu yang dibutuhkan untuk melayani pelanggan'),
+(4, 'Pengetahuan dan keterampilan karyawan untuk memberikan pelayanan'),
+(4, 'Karyawan kami sopan dan menghormati pelanggan'),
+(5, 'Perhatian individu terhadap pelanggan'),
+(5, 'Kemampuan untuk memberikan perhatian yang individualis');
 
 
 -- Dumping structure for table dsssaw.penilaian_servqual
